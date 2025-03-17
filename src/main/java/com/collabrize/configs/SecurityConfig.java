@@ -1,9 +1,7 @@
-package com.auth.collabrize.configs;
+package com.collabrize.configs;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,9 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Value("${spring.security.oauth2.redirect-url}")
-    private String redirectUrl;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -25,9 +20,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .formLogin(Customizer.withDefaults())
             .oauth2Login(oauth -> oauth
-                .defaultSuccessUrl(redirectUrl, true)
+                .defaultSuccessUrl("/oauth2/callback", true) // Redirect to OAuth controller
             );
 
         return http.build();
