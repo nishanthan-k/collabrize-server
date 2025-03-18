@@ -1,4 +1,4 @@
-package com.collabrize.oauth;
+package com.collabrize.features.oauth;
 
 import java.util.Optional;
 import org.springframework.security.core.Authentication;
@@ -6,10 +6,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.collabrize.features.oauth.enums.OAuthProvider;
+import com.collabrize.features.user.domain.User;
+import com.collabrize.features.user.enums.Roles;
 import com.collabrize.user.UserRepo;
-import com.collabrize.user.domain.User;
-import com.collabrize.oauth.enums.OAuthProvider;
-import com.collabrize.user.enums.Roles;
 import com.collabrize.utils.jwt.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

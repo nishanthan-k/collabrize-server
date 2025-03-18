@@ -1,4 +1,4 @@
-package com.collabrize.oauth.enums;
+package com.collabrize.features.oauth.enums;
 
 public enum OAuthProvider {
     LOCAL, GOOGLE, GITHUB

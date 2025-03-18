@@ -1,8 +1,8 @@
-package com.collabrize.user.domain;
+package com.collabrize.features.user.domain;
 
 import java.time.LocalDateTime;
-import com.collabrize.oauth.enums.OAuthProvider;
-import com.collabrize.user.enums.Roles;
+import com.collabrize.features.oauth.enums.OAuthProvider;
+import com.collabrize.features.user.enums.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,9 +12,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "email"),
-    @UniqueConstraint(columnNames = "oauth_id")  // Updated column name for clarity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "oauth_id") // Updated column name for clarity
 })
 public class User {
 

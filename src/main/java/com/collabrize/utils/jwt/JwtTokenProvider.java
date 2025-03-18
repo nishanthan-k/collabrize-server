@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import com.collabrize.user.domain.User;
+import com.collabrize.features.user.domain.User;
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.security.Keys;
 
