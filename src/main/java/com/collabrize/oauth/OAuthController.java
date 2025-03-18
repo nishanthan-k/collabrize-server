@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.collabrize.user.UserRepo;
 import com.collabrize.user.domain.User;
-import com.collabrize.utils.JwtTokenProvider;
 import com.collabrize.oauth.enums.OAuthProvider;
 import com.collabrize.user.enums.Roles;
+import com.collabrize.utils.jwt.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +58,8 @@ public class OAuthController {
             System.out.println("GitHub user has no public email, using fallback: " + email);
         }
 
+        String jwtToken = "";
+
         // **Ensure user exists in the database**
         Optional<User> existingUser = userRepo.findByOauthId(oauthId);
         if (existingUser.isEmpty()) {
@@ -66,10 +68,13 @@ public class OAuthController {
                     .build();
             userRepo.save(newUser);
             System.out.println("New user created: " + email);
+            jwtToken = jwtTokenProvider.generateToken(newUser);
+        } else {
+            jwtToken = jwtTokenProvider.generateToken(existingUser.get());
         }
 
-        // **Generate JWT token**
-        String jwtToken = jwtTokenProvider.generateToken(authentication);
+        System.out.println("\n\njwt token ->" + jwtToken + "\n\n");
+
 
         // **Store JWT in HTTP-only cookie**
         Cookie cookie = new Cookie("auth_token", jwtToken);
