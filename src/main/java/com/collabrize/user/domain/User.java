@@ -3,22 +3,8 @@ package com.collabrize.user.domain;
 import java.time.LocalDateTime;
 import com.collabrize.oauth.enums.OAuthProvider;
 import com.collabrize.user.enums.Roles;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
@@ -28,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "users", uniqueConstraints = {
     @UniqueConstraint(columnNames = "email"),
-    @UniqueConstraint(columnNames = "oauthId")
+    @UniqueConstraint(columnNames = "oauth_id")  // Updated column name for clarity
 })
 public class User {
 
@@ -39,12 +25,16 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false) // Ensuring non-null names
     private String name;
-    private String avatarUrl;  // Profile picture URL
-    private String password; // Only if password-based login is used
 
-    @Column(unique = true, nullable = true)
-    private String oauthId;   // Used for OAuth logins (Google/GitHub)
+    @Column(name = "avatar_url") // Explicit column naming
+    private String avatarUrl;
+
+    private String password; // Only used if password-based login is enabled
+
+    @Column(name = "oauth_id", unique = true)
+    private String oauthId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -54,7 +44,10 @@ public class User {
     @Column(nullable = false)
     private Roles role;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
